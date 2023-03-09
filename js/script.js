@@ -63,6 +63,8 @@ let containerTestoEl = document.getElementById("container-testo");
 let titolo = document.createElement("div");
 let testo = document.createElement("div");
 
+titolo.classList.add("titolo")
+
 titolo.innerHTML = images[index].title;
 testo.innerHTML = images[index].text;
 
@@ -131,4 +133,25 @@ arrowtopEl.addEventListener("click", function() {
 
     littleImgEl[index].classList.add("active");
 });
+
+
+// //bonus 2
+// autoPlay( function () {
+   
+//     littleImgEl[index].classList.remove("active");
+
+//     if (index < images.length - 1) {
+//         index++;
+//     } else {
+//         index = 0;
+//     }
+    
+//     myImg.src = images[index].image;
+
+//     titolo.innerHTML = images[index].title;
+//     testo.innerHTML = images[index].text;
+
+//     littleImgEl[index].classList.add("active");
+
+// }, 3000);
 

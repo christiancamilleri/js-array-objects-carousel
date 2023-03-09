@@ -76,3 +76,8 @@ img {
     border: 5px solid greenyellow;
     opacity: 1;
 } 
+
+.titolo {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
