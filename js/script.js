@@ -112,3 +112,23 @@ arrowbottomEl.addEventListener("click", function () {
 
 });
 
+// creo evento freccia in alto
+arrowtopEl.addEventListener("click", function() {
+    
+    littleImgEl[index].classList.remove("active");
+
+    // creo ciclo infinito
+    if (index > 0) {
+        index--;
+    } else {
+        index = images.length - 1;
+    };
+
+    myImg.src = images[index].image;
+
+    titolo.innerHTML = images[index].title;
+    testo.innerHTML = images[index].text;
+
+    littleImgEl[index].classList.add("active");
+});
+
