@@ -66,6 +66,10 @@ let testo = document.createElement("div");
 titolo.innerHTML = images[index].title;
 testo.innerHTML = images[index].text;
 
+titolo.style.color = "white";
+testo.style.color = "white";
+
+
 containerTestoEl.append(titolo);
 containerTestoEl.append(testo);
 
@@ -79,3 +83,32 @@ for (let i = 0; i < images.length; i++) {
     asideImg.style.height = "calc(100% / " + images.length + ")";
     asideEl.append(asideImg)
 }
+
+// seleziono tutti gli elemeti con classe littleimg
+let littleImgEl = document.querySelectorAll(".littleimg");
+console.log(littleImgEl)
+
+// aggiungo classe active
+littleImgEl[index].classList.add("active");
+
+// creo evento alla pressione della freccia in basso
+arrowbottomEl.addEventListener("click", function () {
+
+    littleImgEl[index].classList.remove("active");
+    
+    // creo ciclo infinito
+    if (index < images.length - 1) {
+        index++;
+    } else {
+        index = 0;
+    };
+
+    myImg.src = images[index].image;
+
+    titolo.innerHTML = images[index].title;
+    testo.innerHTML = images[index].text;
+
+    littleImgEl[index].classList.add("active");
+
+});
+
