@@ -45,12 +45,12 @@ const images = [
 // bersaglio container-img
 const  containerImgEl = document.getElementById("container-img");
 // creo img in html
-const  myImg = document.createElement("img");
 const  arrowtopEl = document.getElementById("arrow-top");
 const  arrowbottomEl = document.getElementById("arrow-bottom");
 const  asideEl = document.getElementById("aside")
 const containerTestoEl = document.getElementById("container-testo");
 const testo = document.createElement("div");
+const  myImg = document.createElement("img");
 const titolo = document.createElement("div");
 
 
@@ -74,19 +74,20 @@ let index = 0;
 createAsideImg(images, asideEl)
 
 // seleziono tutti gli elemeti con classe littleimg
-let littleImgEl = document.querySelectorAll(".littleimg");
+const littleImgEl = document.querySelectorAll(".littleimg");
 
-// aggiungo classe active
-littleImgEl[index].classList.add("active");
+
+console.log(littleImgEl)
+
 
 showSlide(images, index)
 
 // creo evento alla pressione della freccia in basso
 arrowbottomEl.addEventListener("click", function () {
-
+    
     index = updateIndex(index, "giu");
 
-    showSlide(images, index)
+    showSlide(images, index, littleImgEl)
 
 });
 
@@ -95,23 +96,36 @@ arrowtopEl.addEventListener("click", function() {
     
     index = updateIndex(index, "su")
 
-    showSlide(images, index)
+    showSlide(images, index, littleImgEl)
 });
+
+
+
 
 
 
 // -------------function---------------
 function createAsideImg(array, genitore) {
-    for (let i = 0; i < array.length; i++) {
+    
+    
+        array.forEach((element, actualIndex) => {
         let asideImg = document.createElement("img");
-    
-        asideImg.src = images[i].image;
-    
+        asideImg.src = element.image;
         asideImg.classList.add("littleimg")
-    
         asideImg.style.height = "calc(100% / " + array.length + ")";
         genitore.append(asideImg)
-    }
+        
+
+        // bonus 1
+        asideImg.addEventListener("click", function() {
+            index = actualIndex;
+            showSlide(images, actualIndex)
+        })
+
+        })
+
+  
+    
 }
 
 function showSlide(array, index) {
