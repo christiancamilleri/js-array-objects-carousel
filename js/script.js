@@ -43,15 +43,18 @@ const images = [
 ];
 
 // bersaglio container-img
-const  containerImgEl = document.getElementById("container-img");
+const containerImgEl = document.getElementById("container-img");
 // creo img in html
-const  arrowtopEl = document.getElementById("arrow-top");
-const  arrowbottomEl = document.getElementById("arrow-bottom");
-const  asideEl = document.getElementById("aside")
+const arrowtopEl = document.getElementById("arrow-top");
+const arrowbottomEl = document.getElementById("arrow-bottom");
+const asideEl = document.getElementById("aside")
 const containerTestoEl = document.getElementById("container-testo");
+const startStopBtnEl = document.getElementById("start-stop-btn");
+const reverseBtnEl = document.getElementById("reverse-btn");
 const testo = document.createElement("div");
-const  myImg = document.createElement("img");
+const myImg = document.createElement("img");
 const titolo = document.createElement("div");
+
 
 
 containerImgEl.append(myImg);
@@ -60,14 +63,6 @@ containerTestoEl.append(testo);
 
 
 let index = 0;
-
-
-
-
-
-
-
-
 
 
 // creo aside img
@@ -84,7 +79,7 @@ showSlide(images, index)
 
 // creo evento alla pressione della freccia in basso
 arrowbottomEl.addEventListener("click", function () {
-    
+
     index = updateIndex(index, "giu");
 
     showSlide(images, index, littleImgEl)
@@ -92,8 +87,8 @@ arrowbottomEl.addEventListener("click", function () {
 });
 
 // creo evento freccia in alto
-arrowtopEl.addEventListener("click", function() {
-    
+arrowtopEl.addEventListener("click", function () {
+
     index = updateIndex(index, "su")
 
     showSlide(images, index, littleImgEl)
@@ -101,35 +96,98 @@ arrowtopEl.addEventListener("click", function() {
 
 
 
+// bonus 2 autoplay
+// creo booleana autoplay
+let isAutoplayOn = true;
+// indico direzione autoplay
+let autoplayDirection = "giu"
+
+
+// memorizzo in una variabile la timing function
+let autoplayFunction = setInterval(() => {
+    index = updateIndex(index, "giu");
+    showSlide(images, index);
+}, 3000);
+
+
+startStopBtnEl.addEventListener("click", function () {
+
+    if (isAutoplayOn) {
+        clearInterval(autoplayFunction)
+
+        isAutoplayOn = false;
+        this.innerText = "start"
+    } else {
+        // memorizzo in una variabile la timing function
+        autoplayFunction = setInterval(() => {
+            index = updateIndex(index, "giu");
+            showSlide(images, index)
+        }, 3000)
+        isAutoplayOn = true;
+        this.innerText = "stop"
+    }
+});
 
 
 
-// -------------function---------------
+// reverse
+reverseBtnEl.addEventListener("click", () => {
+    
+    if(autoplayDirection == "giu") {
+        autoplayDirection = "su"
+    } else {
+        autoplayDirection = "giu"
+    }
+    
+     clearInterval(autoplayFunction)
+
+    // faccio partire nuovamente l autoplay
+    autoplayFunction = setInterval(() => {
+        index = updateIndex(index, autoplayDirection);
+        showSlide(images, index)
+    }, 3000)
+
+    isAutoplayOn = true;
+
+    if (isAutoplayOn) {
+        startStopBtnEl.innerText = "stop"
+    } else {
+        startStopBtnEl.innerText = "start"
+    }
+})
+
+
+
+
+// -------------function---------------------------------------------------------------------------------
+
+
+
 function createAsideImg(array, genitore) {
-    
-    
-        array.forEach((element, actualIndex) => {
+
+
+    array.forEach((element, actualIndex) => {
         let asideImg = document.createElement("img");
         asideImg.src = element.image;
         asideImg.classList.add("littleimg")
         asideImg.style.height = "calc(100% / " + array.length + ")";
         genitore.append(asideImg)
-        
+
 
         // bonus 1
-        asideImg.addEventListener("click", function() {
+        asideImg.addEventListener("click", function () {
             index = actualIndex;
             showSlide(images, actualIndex)
         })
 
-        })
+    })
 
-  
-    
+
+
 }
 
 function showSlide(array, index) {
-   let slideObject = array[index];
+    let slideObject = array[index];
 
     // cambio immagine
     myImg.src = slideObject.image;
@@ -156,33 +214,33 @@ function showSlide(array, index) {
 
 function updateIndex(index, direzione) {
     // controllo quale sia la direzione
-  if(direzione == "su") {
+    if (direzione == "su") {
 
-    // se sono alla prima slide
-    if(index <= 0) {
+        // se sono alla prima slide
+        if (index <= 0) {
 
-      return images.length - 1;
+            return images.length - 1;
 
-    } else {
+        } else {
 
-      return index - 1;
+            return index - 1;
 
-    }
-
-  } else {
-
-    // se sono all'ultima slide
-    if(index >= images.length -1) {
-
-      return 0;
+        }
 
     } else {
 
-      return index + 1;
+        // se sono all'ultima slide
+        if (index >= images.length - 1) {
+
+            return 0;
+
+        } else {
+
+            return index + 1;
+
+        }
 
     }
-
-  }
 
 }
 
