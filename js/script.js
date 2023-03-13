@@ -16,17 +16,6 @@
 //---------- fine milenstone 0 -----------------------
 
 
-// bersaglio container-img
-let containerImgEl = document.getElementById("container-img");
-
-// creo img in html
-let myImg = document.createElement("img");
-containerImgEl.append(myImg);
-
-let arrowtopEl = document.getElementById("arrow-top");
-let arrowbottomEl = document.getElementById("arrow-bottom");
-
-let asideEl = document.getElementById("aside")
 
 // creo array di oggetti
 const images = [
@@ -53,105 +42,133 @@ const images = [
     }
 ];
 
-let index = 0;
-
-///IMPOSTARE IMG SRC UGUALE ALLA PRIMA IMG DELL'ARRAY:
-myImg.src = images[index].image;
-
-// inserisco titolo e descrizione
-let containerTestoEl = document.getElementById("container-testo");
-let titolo = document.createElement("div");
-let testo = document.createElement("div");
-
-titolo.classList.add("titolo")
-
-titolo.innerHTML = images[index].title;
-testo.innerHTML = images[index].text;
-
-titolo.style.color = "white";
-testo.style.color = "white";
+// bersaglio container-img
+const  containerImgEl = document.getElementById("container-img");
+// creo img in html
+const  myImg = document.createElement("img");
+const  arrowtopEl = document.getElementById("arrow-top");
+const  arrowbottomEl = document.getElementById("arrow-bottom");
+const  asideEl = document.getElementById("aside")
+const containerTestoEl = document.getElementById("container-testo");
+const testo = document.createElement("div");
+const titolo = document.createElement("div");
 
 
+containerImgEl.append(myImg);
 containerTestoEl.append(titolo);
 containerTestoEl.append(testo);
 
-for (let i = 0; i < images.length; i++) {
-    let asideImg = document.createElement("img");
 
-    asideImg.src = images[i].image;
+let index = 0;
 
-    asideImg.classList.add("littleimg")
 
-    asideImg.style.height = "calc(100% / " + images.length + ")";
-    asideEl.append(asideImg)
-}
+
+
+
+
+
+
+
+
+// creo aside img
+createAsideImg(images, asideEl)
 
 // seleziono tutti gli elemeti con classe littleimg
 let littleImgEl = document.querySelectorAll(".littleimg");
-console.log(littleImgEl)
 
 // aggiungo classe active
 littleImgEl[index].classList.add("active");
 
+showSlide(images, index)
+
 // creo evento alla pressione della freccia in basso
 arrowbottomEl.addEventListener("click", function () {
 
-    littleImgEl[index].classList.remove("active");
-    
-    // creo ciclo infinito
-    if (index < images.length - 1) {
-        index++;
-    } else {
-        index = 0;
-    };
+    index = updateIndex(index, "giu");
 
-    myImg.src = images[index].image;
-
-    titolo.innerHTML = images[index].title;
-    testo.innerHTML = images[index].text;
-
-    littleImgEl[index].classList.add("active");
+    showSlide(images, index)
 
 });
 
 // creo evento freccia in alto
 arrowtopEl.addEventListener("click", function() {
     
-    littleImgEl[index].classList.remove("active");
+    index = updateIndex(index, "su")
 
-    // creo ciclo infinito
-    if (index > 0) {
-        index--;
-    } else {
-        index = images.length - 1;
-    };
-
-    myImg.src = images[index].image;
-
-    titolo.innerHTML = images[index].title;
-    testo.innerHTML = images[index].text;
-
-    littleImgEl[index].classList.add("active");
+    showSlide(images, index)
 });
 
 
-// //bonus 2
-// autoPlay( function () {
-   
-//     littleImgEl[index].classList.remove("active");
 
-//     if (index < images.length - 1) {
-//         index++;
-//     } else {
-//         index = 0;
-//     }
+// -------------function---------------
+function createAsideImg(array, genitore) {
+    for (let i = 0; i < array.length; i++) {
+        let asideImg = document.createElement("img");
     
-//     myImg.src = images[index].image;
+        asideImg.src = images[i].image;
+    
+        asideImg.classList.add("littleimg")
+    
+        asideImg.style.height = "calc(100% / " + array.length + ")";
+        genitore.append(asideImg)
+    }
+}
 
-//     titolo.innerHTML = images[index].title;
-//     testo.innerHTML = images[index].text;
+function showSlide(array, index) {
+   let slideObject = array[index];
 
-//     littleImgEl[index].classList.add("active");
+    // cambio immagine
+    myImg.src = slideObject.image;
 
-// }, 3000);
+    // cambi il titolo
+    titolo.innerHTML = slideObject.title;
+    titolo.classList.add("titolo")
+    // cambio la descrizione
+    testo.innerHTML = slideObject.text;
+
+    titolo.style.color = "white";
+    testo.style.color = "white";
+
+    // rimuovo classe active
+    littleImgEl.forEach((element) => {
+        element.classList.remove("active");
+    })
+
+    // rendo active miniatura relativa all index
+    littleImgEl[index].classList.add("active");
+
+
+}
+
+function updateIndex(index, direzione) {
+    // controllo quale sia la direzione
+  if(direzione == "su") {
+
+    // se sono alla prima slide
+    if(index <= 0) {
+
+      return images.length - 1;
+
+    } else {
+
+      return index - 1;
+
+    }
+
+  } else {
+
+    // se sono all'ultima slide
+    if(index >= images.length -1) {
+
+      return 0;
+
+    } else {
+
+      return index + 1;
+
+    }
+
+  }
+
+}
 
